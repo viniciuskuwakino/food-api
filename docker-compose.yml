@@ -1,0 +1,50 @@
+version: "3.7"
+
+
+services:
+    # workspace project
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: food-api-php
+        restart: always
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        networks:
+            - food-network
+
+    # nginx
+    food-api-php:
+        image: nginx:alpine
+        restart: always
+        ports:
+            - "8201:8181"
+        volumes:
+            - ./:/var/www
+            - .docker/nginx/:/etc/nginx/conf.d/
+
+        networks:
+            - food-network
+
+    food-api-db:
+        image: postgres:latest
+        container_name: food-api-pgsql
+        environment:
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_DATABASE}
+        restart: unless-stopped
+        ports:
+            - "5345:5432"
+        volumes:
+            - .docker/postgres/data:/var/lib/postgresql/data
+            - .docker/postgres/scripts:/etc/postgresql/scripts
+        networks:
+            - food-network
+
+networks:
+    food-network:
+        name: food-network
+        driver: bridge

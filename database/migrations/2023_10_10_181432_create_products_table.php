@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+use function Laravel\Prompts\table;
+
 return new class extends Migration
 {
     /**
@@ -14,7 +16,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->string('status');
+            $table->enum('status', ['draft', 'trash', 'published']);
             $table->string('imported_t');
             $table->string('url');
             $table->string('creator');
@@ -36,6 +38,7 @@ return new class extends Migration
             $table->string('nutriscore_grade');
             $table->string('main_category');
             $table->string('image_url');
+            // $table->softDeletes();
             $table->timestamps();
         });
     }

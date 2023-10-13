@@ -17,9 +17,10 @@ class ProductRepository implements ProductRepositoryInterface
         return $this->model->all();
     }
 
-    public function findById($productId): Collection
+    public function findById(int $productId): Product | null
     {
-        return $this->model->find($productId)->get();
+        // return $this->model->find($productId)->get();
+        return $this->model::whereId($productId)->first();
     }
 
     public function update(Product $product, $productId): Collection
@@ -28,9 +29,9 @@ class ProductRepository implements ProductRepositoryInterface
         return $this->model->all();
     }
 
-    public function delete($productId)
-    {
-
-    }
+    // public function destroy(Product $product)
+    // {
+    //     dd($product->delete());
+    // }
 
 }

@@ -18,10 +18,21 @@ class ProductController extends Controller
         return response()->json($this->service->listAll());
     }
 
-    public function show($productId): JsonResponse
+    public function show(int $productId): JsonResponse
     {
         $product = $this->service->findById($productId);
         return response()->json($product);
     }
 
+    public function update(int $productId): JsonResponse
+    {
+        $product = $this->service->findById($productId);
+        return response()->json($product);
+    }
+
+    public function destroy(int $productId)
+    {
+        $this->service->destroy($productId);
+        return response()->noContent();
+    }
 }

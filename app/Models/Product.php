@@ -10,5 +10,4 @@ use Laravel\Sanctum\HasApiTokens;
 class Product extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
-
 }

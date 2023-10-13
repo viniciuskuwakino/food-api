@@ -6,58 +6,83 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use ZipArchive;
 
+
+function imprime(array $obj): void
+{
+    echo "code: " . $obj['code'] . "<br>";
+    // echo "status: " . $obj['status'];
+    // echo "imported_t: " . $obj['imported_t'];
+    echo "url: " . $obj['url'] . "<br>";
+    echo "creator: " . $obj['creator'] . "<br>";
+    echo "created_t: " . $obj['created_t'] . "<br>";
+    echo "last_modified_t: " . $obj['last_modified_t'] . "<br>";
+    echo "product_name: " . $obj['product_name'] . "<br>";
+    echo "quantity: " . $obj['quantity'] . "<br>";
+    echo "brands: " . $obj['brands'] . "<br>";
+    echo "categories: " . $obj['categories'] . "<br>";
+    echo "labels: " . $obj['labels'] . "<br>";
+    echo "cities: " . $obj['cities'] . "<br>";
+    echo "purchase_places: " . $obj['purchase_places'] . "<br>";
+    echo "stores: " . $obj['stores'] . "<br>";
+    echo "ingredients_text: " . $obj['ingredients_text'] . "<br>";
+    echo "traces: " . $obj['traces'] . "<br>";
+    echo "serving_size: " . $obj['serving_size'] . "<br>";
+    echo "serving_quantity: " . $obj['serving_quantity'] . "<br>";
+    echo "nutriscore_score: " . $obj['nutriscore_score'] . "<br>";
+    echo "nutriscore_grade: " . $obj['nutriscore_grade'] . "<br>";
+    echo "main_category: " . $obj['main_category'] . "<br>";
+    echo "image_url: " . $obj['image_url'] . "<br>";
+}
+
+
 class ImportProductsController extends Controller
 {
+
+    
     public function populate()
     {
-//        dd(storage_path("/temp"));
-        //This input should be from somewhere else, hard-coded in this example
+//      This input should be from somewhere else, hard-coded in this example
         $fileName = 'products_01.json.gz';
-        $zipTemporario = storage_path("/temp/temporario.gz");
+        $zipTemporario = storage_path("/temporario.gz");
+        $unZipTemporario = storage_path("/data.json");
 
         $response = Http::get("https://challenges.coode.sh/food/data/json/{$fileName}");
+//        $response = Http::get("https://challenges.coode.sh/food/data/json/index.txt");
+//        dd($response->body());
         file_put_contents($zipTemporario, $response->body());
 
         $file = gzopen($zipTemporario, 'rb');
+        $outFile = fopen($unZipTemporario, 'wb');
+
         while (!gzeof($file)) {
-            $teste = (string) json_encode(gzread($file, 4096));
-            $dec = collect($teste);
-            dd(json_decode($dec[0], true));
-//            dd(gettype(json_decode(json_encode(gzread($file, 4096)), true)));
-//            dd(json_decode(json_encode(gzread($file, 4096)), true));
-//            return gzread($file, 20000);
+            fwrite($outFile, gzread($file, 4096));
         }
-//        dd($file);
-//        $zip = new ZipArchive;
-//        dd($zip->open($zipTemporario));
 
-//        try {
-//            $zip->open($zipTemporario, ZipArchive::CREATE);
-//            $extractPath = storage_path("/temp");
-//            $zip->extractTo($extractPath);
-//            $zip->close();
-//        } catch (\Exception $e) {
-//            echo $e->getMessage();
-//        }
+        gzclose($file);
+        fclose($outFile);
 
 
-//        if ($zip->open($zipTemporario, ZipArchive::CREATE)) {
-////        $zip->open($zipTemporario);
-//            $extractPath = storage_path("/temp");
-//
-//            $zip->extractTo($extractPath);
-//            $zip->close();
-////            dd($extractPath);
-//
-//        } else {
-//            echo 'Erro ao abrir o arquivo!';
-//        }
+        $json_data = fopen($unZipTemporario, 'r');
+        $cont = 0;
+        if ($json_data) {
+            while (($line = fgets($json_data)) !== false && $cont < 100) {
+                $line = trim($line);
 
-//        unlink($zipTemporario);
+                $jsonObject = json_decode($line, true);
 
+                imprime($jsonObject);
+                $cont++;
+            }
+        }
 
-//        return $response->body();
+        fclose($json_data);
+
+        unlink($zipTemporario);
+        unlink($unZipTemporario);
+
+        //        return $response->body();
 //        $response->json();
 //        dd($lista);
     }
+
 }

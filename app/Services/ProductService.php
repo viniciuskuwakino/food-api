@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Repositories\ProductRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use App\Models\Product;
+
 
 class ProductService
 {
@@ -17,7 +19,7 @@ class ProductService
         return $this->repository->listAll();
     }
 
-    public function findById($contactId): Collection
+    public function findById(int $contactId): Product | null
     {
         return $this->repository->findById($contactId);
     }
@@ -26,5 +28,15 @@ class ProductService
     {
         $product = $this->repository->findById($id);
         return $this->repository->update($product, $req);
+    }
+
+    public function destroy(int $productId)
+    {
+        $product = $this->repository->findById($productId);
+        
+        if ($product) {
+            $product['status'] = 'trash';
+            $product->save();
+        }
     }
 }

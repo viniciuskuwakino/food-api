@@ -61,7 +61,7 @@ class ImportProductService
                 $jsonObject = json_decode($line, true);
                 $jsonObject['code'] = str_replace("\"", "", $jsonObject['code']);
 
-                $productExists = $this->productRepository->findByCode($jsonObject);
+                $productExists = $this->productRepository->findByCode($jsonObject['code']);
 
                 if (!$productExists) {
                     $this->productRepository->createProduct($jsonObject);

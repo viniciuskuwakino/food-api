@@ -24,14 +24,16 @@ class ProductRepository implements ProductRepositoryInterface
         return $this->model::whereId($productId)->first();
     }
 
-    public function findByCode(array $product): Product | null
+    public function findByCode(string $productCode): Product | null
     {
-        return $this->model::where('code', $product['code'])->first();
+        return $this->model::where('code', $productCode)->first();
     }
 
 
     public function update(ProductRequest $request, Product $product): Product
     {
+
+//        dd($request->all());
         $product->fill($request->all());
         $product['status'] = 'draft';
         $product->save();

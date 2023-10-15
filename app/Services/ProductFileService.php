@@ -25,11 +25,6 @@ class ProductFileService
         return $this->repository->findById($prodFileId);
     }
 
-    public function getNextFile(): ProductFile | null
-    {
-        return $this->repository->getNextFile();
-    }
-
     public function addFileNames(string $names): void
     {
         $fileNames = trim($names);

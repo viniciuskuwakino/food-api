@@ -11,7 +11,7 @@ interface ProductRepositoryInterface
 {
     public function listAll(): LengthAwarePaginator;
     public function findById(int $productId): Product | null;
-    public function findByCode(array $product): Product | null;
+    public function findByCode(string $productCode): Product | null;
     public function update(ProductRequest $request, Product $product): Product;
     public function destroy(Product $product): void;
     public function createProduct(array $product): void;

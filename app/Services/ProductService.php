@@ -27,9 +27,14 @@ class ProductService
         return $this->repository->findById($productId);
     }
 
-    public function update(ProductRequest $request, int $productId): Product | null
+    public function findByCode(string $productCode): Product | null
     {
-        $product = $this->repository->findById($productId);
+        return $this->repository->findByCode($productCode);
+    }
+
+    public function update(ProductRequest $request, string $productCode): Product | null
+    {
+        $product = $this->repository->findByCode($productCode);
 
         if ($product) {
             return $this->repository->update($request, $product);
@@ -38,9 +43,9 @@ class ProductService
         }
     }
 
-    public function destroy(int $productId): void
+    public function destroy(string $productCode): void
     {
-        $product = $this->repository->findById($productId);
+        $product = $this->repository->findByCode($productCode);
         if ($product) $this->repository->destroy($product);
     }
 }

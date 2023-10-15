@@ -22,21 +22,21 @@ class ProductController extends Controller
         return ProductResource::collection($this->service->listAll());
     }
 
-    public function show(int $productId): JsonResponse
+    public function show(string $productCode): JsonResponse
     {
-        $product = $this->service->findById($productId);
+        $product = $this->service->findByCode($productCode);
         return response()->json($product);
     }
 
-    public function update(ProductRequest $request, int $productId): JsonResponse
+    public function update(ProductRequest $request, string $productCode): JsonResponse
     {
-        $product = $this->service->update($request, $productId);
+        $product = $this->service->update($request, $productCode);
         return response()->json($product);
     }
 
-    public function destroy(int $productId): Response
+    public function destroy(string $productCode): Response
     {
-        $this->service->destroy($productId);
+        $this->service->destroy($productCode);
         return response()->noContent();
     }
 }

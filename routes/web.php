@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ApiDetailsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,13 +13,8 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
-// Route::resource('products', ProductController::class);
-
-// Route::get('/products', [ProductController::class, 'index']);
-// Route::get('/products/{productId}', [ProductController::class, 'show']);
-// Route::put('/products/{productId}', [ProductController::class, 'update']);
-// Route::delete('/products/{productId}', [ProductController::class, 'destroy']);
+Route::get('/', [ApiDetailsController::class, 'index']);

@@ -62,15 +62,10 @@ O projeto tem como objetivo dar suporte a equipe de nutricionistas da empresa Fi
 
 ### Testar a API no Postman ou Insomnia
 
-`GET /`: http://127.0.0.1:8201/api/
-`PUT /products/:code`
+Url: http://127.0.0.1:8201/api/
 
-
-
-
-
-- 
-
-  
-
-  
+`GET /`: Detalhes da API, se conexão leitura e escritura com a base de dados está OK, horário da última vez que o CRON foi executado, tempo online e uso de memória;
+`PUT /products/:code`: Recebe atualizações do Projeto Web;
+`DELETE /products/:code`: Mudar o status do produto para `trash`;
+`GET /products/:code`: Obter a informação somente de um produto da base de dados;
+`GET /products`: Listar todos os produtos da base de dados, com sistema de paginação para não sobrecarregar o `REQUEST`.

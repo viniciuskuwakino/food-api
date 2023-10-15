@@ -1,0 +1,2 @@
+* * * * * docker exec food-api-php php artisan schedule:run
+

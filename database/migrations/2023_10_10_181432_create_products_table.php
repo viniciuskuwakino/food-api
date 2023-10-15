@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('cities');
             $table->string('purchase_places');
             $table->string('stores');
-            $table->string('ingredients_text');
+            $table->text('ingredients_text');
             $table->string('traces');
             $table->string('serving_size');
             $table->string('serving_quantity');

@@ -32,8 +32,6 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function update(ProductRequest $request, Product $product): Product
     {
-
-//        dd($request->all());
         $product->fill($request->all());
         $product['status'] = 'draft';
         $product->save();
